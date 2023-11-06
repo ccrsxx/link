@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-black text-white max-w-6xl mx-auto px-4 min-h-screen grid grid-rows-[auto,1fr,auto];
+  }
+}
+
+@layer components {
+  .layout {
+    @apply grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4;
+  }
+
+  .main-border {
+    @apply border border-gray-600;
+  }
+
+  .smooth-tab {
+    @apply rounded-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400;
+  }
+
+  .clickable {
+    @apply smooth-tab main-border rounded-md shadow-sm transition hover:scale-[1.03] hover:shadow-md active:scale-[0.97];
+
+    &:focus-visible {
+      @apply scale-[1.03] shadow-md;
+    }
+  }
+
+  .custom-underline {
+    @apply underline decoration-transparent outline-none transition [text-decoration-thickness:1px] 
+           hover:decoration-inherit focus-visible:decoration-inherit;
+  }
+}
