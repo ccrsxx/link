@@ -17,7 +17,8 @@ export async function createLink(
   try {
     const { url, slug } = linkSchema.parse(formObject);
 
-    parsedSlug = slug ?? generateRandomSlug();
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    parsedSlug = slug || generateRandomSlug();
 
     const slugExists = await checkSlugExists(parsedSlug);
 
