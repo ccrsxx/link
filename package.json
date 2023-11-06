@@ -10,17 +10,23 @@
     "sort-imports": "next lint --fix .",
     "type-check": "tsc --noEmit",
     "format": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migrate": "dotenv -e .env.local -- npx prisma migrate dev --name deploy"
+  },
+  "prisma": {
+    "schema": "src/lib/prisma/schema.prisma"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@prisma/client": "^5.5.2",
     "clsx": "^2.0.0",
     "next": "14.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
@@ -31,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "autoprefixer": "^10",
+    "dotenv-cli": "^7.3.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.0",
     "eslint-import-resolver-typescript": "^3.4.0",
@@ -39,6 +46,8 @@
     "lint-staged": "^14.0.0",
     "postcss": "^8",
     "prettier": "3.0.2",
+    "prettier-plugin-tailwindcss": "^0.5.6",
+    "prisma": "^5.5.2",
     "sass": "^1.69.5",
     "tailwindcss": "^3",
     "typescript": "^5"
