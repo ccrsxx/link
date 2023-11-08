@@ -31,7 +31,7 @@ export default function Home(): JSX.Element {
         <form className='grid gap-4' action={formAction}>
           <div className='flex w-full items-center py-0 pr-0'>
             <p className='custom-input rounded-r-none border-r-0 text-gray-600 dark:text-gray-300'>
-              {URL_WITHOUT_PROTOCOL}/
+              {URL_WITHOUT_PROTOCOL}/l/
             </p>
             <input
               className='custom-input w-full rounded-l-none'
