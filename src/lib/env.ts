@@ -8,4 +8,8 @@ const parsedSchema = envSchema.parse({
   NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL
 });
 
-export const { NEXT_PUBLIC_URL } = parsedSchema;
+const { NEXT_PUBLIC_URL } = parsedSchema;
+
+const URL_WITHOUT_PROTOCOL = NEXT_PUBLIC_URL.replace(/(^\w+:|^)\/\//, '');
+
+export { NEXT_PUBLIC_URL, URL_WITHOUT_PROTOCOL };

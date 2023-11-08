@@ -3,11 +3,15 @@
 import { redirect } from 'next/navigation';
 import { ZodError } from 'zod';
 import { prisma } from '@/lib/db';
-import { checkSlugExists, generateRandomSlug } from '@/lib/helper-server';
+import {
+  checkIfUrlIsValid,
+  checkSlugExists,
+  generateRandomSlug
+} from '@/lib/helper';
 import { linkSchema } from './schema';
 
 export async function createLink(
-  _prevState: unknown,
+  _prevState: string | null,
   formData: FormData
 ): Promise<string | null> {
   const formObject = Object.fromEntries(formData.entries());
@@ -16,6 +20,10 @@ export async function createLink(
 
   try {
     const { url, slug } = linkSchema.parse(formObject);
+
+    const isValidUrl = checkIfUrlIsValid(url);
+
+    if (!isValidUrl) throw new Error("URL can't be from this website");
 
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     parsedSlug = slug || generateRandomSlug();
@@ -41,5 +49,5 @@ export async function createLink(
     return 'Internal server error';
   }
 
-  redirect(`/success?slug=${parsedSlug}`);
+  redirect(`/s/${parsedSlug}`);
 }

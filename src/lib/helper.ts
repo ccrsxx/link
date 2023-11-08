@@ -1,5 +1,6 @@
 import { randomBytes } from 'crypto';
 import { prisma } from './db';
+import { URL_WITHOUT_PROTOCOL } from './env';
 
 /**
  * Returns a random string for slug.
@@ -19,4 +20,8 @@ export async function checkSlugExists(slug: string): Promise<boolean> {
   });
 
   return !!link;
+}
+
+export function checkIfUrlIsValid(url: string): boolean {
+  return !url.includes(URL_WITHOUT_PROTOCOL);
 }

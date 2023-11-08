@@ -11,7 +11,7 @@ export function Submit({ isValidURL }: SubmitProps): JSX.Element {
   return (
     <Button
       type='submit'
-      className='custom-button clickable disabled:brightness-75'
+      className='custom-button clickable'
       disabled={!isValidURL}
       loading={pending}
     >
