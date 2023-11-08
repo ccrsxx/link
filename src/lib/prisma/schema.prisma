@@ -9,9 +9,9 @@ datasource db {
 }
 
 model Link {
-  id        String   @id @default(uuid()) @db.Uuid
-  url       String   @db.VarChar(255)
-  slug      String   @unique @db.VarChar(255)
+  id         String   @id @default(uuid()) @db.Uuid
+  url        String   @db.VarChar(255)
+  slug       String   @unique @db.VarChar(255)
   created_at DateTime @default(now()) @db.Timestamptz()
 
   @@map("links")
