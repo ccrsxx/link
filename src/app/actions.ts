@@ -3,11 +3,8 @@
 import { redirect } from 'next/navigation';
 import { ZodError } from 'zod';
 import { prisma } from '@/lib/db';
-import {
-  checkIfUrlIsValid,
-  checkSlugExists,
-  generateRandomSlug
-} from '@/lib/helper';
+import { checkIfUrlIsValid } from '@/lib/helper';
+import { checkSlugExists, generateRandomSlug } from '@/lib/helper-server';
 import { linkSchema } from './schema';
 
 export async function createLink(

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { checkSlugExists } from '@/lib/helper';
+import { checkSlugExists } from '@/lib/helper-server';
 import { NEXT_PUBLIC_URL } from '@/lib/env';
 import { CopyButton } from '@/components/ui/copy-button';
 import { Button } from '@/components/ui/button';
