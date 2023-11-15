@@ -1,1 +1,4 @@
-export type APIResponse<T = void> = T extends void ? { message: string } : T;
+export type APIResponse<T = void> = {
+  data?: T;
+  message: string;
+};

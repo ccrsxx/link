@@ -1,50 +1,33 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { ZodError } from 'zod';
-import { prisma } from '@/lib/db';
-import { checkIfUrlIsValid } from '@/lib/helper';
-import { checkSlugExists, generateRandomSlug } from '@/lib/helper-server';
-import { linkSchema } from './schema';
+import { NEXT_PUBLIC_URL } from '@/lib/env';
+import type { APIResponse } from '@/lib/types/api';
+import type { LinkMeta } from '@/lib/types/meta';
 
 export async function createLink(
   _prevState: string | null,
   formData: FormData
-): Promise<string | null> {
-  const formObject = Object.fromEntries(formData.entries());
+): Promise<string> {
+  const body = Object.fromEntries(formData.entries());
 
-  let parsedSlug: string;
+  let successUrl: string;
 
   try {
-    const { url, slug } = linkSchema.parse(formObject);
-
-    const isValidUrl = checkIfUrlIsValid(url);
-
-    if (!isValidUrl) throw new Error("URL can't be from this website");
-
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    parsedSlug = slug || generateRandomSlug();
-
-    const slugExists = await checkSlugExists(parsedSlug);
-
-    if (slugExists) throw new Error('Slug already exists');
-
-    await prisma.link.create({
-      data: {
-        url: url,
-        slug: parsedSlug
-      }
+    const response = await fetch(`${NEXT_PUBLIC_URL}/links`, {
+      method: 'POST',
+      body: JSON.stringify(body)
     });
+
+    const { message, data } = (await response.json()) as APIResponse<LinkMeta>;
+
+    if (!response.ok || !data) throw new Error(message);
+
+    successUrl = data.successUrl;
   } catch (err) {
-    if (err instanceof ZodError) {
-      const parsedError = err.errors.map(({ message }) => message).join(', ');
-      return parsedError;
-    }
-
     if (err instanceof Error) return err.message;
-
     return 'Internal server error';
   }
 
-  redirect(`/s/${parsedSlug}`);
+  redirect(successUrl);
 }
