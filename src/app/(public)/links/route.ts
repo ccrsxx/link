@@ -5,6 +5,7 @@ import { checkIfUrlIsValid } from '@/lib/helper';
 import { checkSlugExists, generateRandomSlug } from '@/lib/helper-server';
 import { NEXT_PUBLIC_URL } from '@/lib/env';
 import { linkSchema } from '@/app/schema';
+import type { Link } from '@/app/schema';
 import type { APIResponse } from '@/lib/types/api';
 import type { LinkMeta } from '@/lib/types/meta';
 
@@ -12,7 +13,9 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<APIResponse<LinkMeta>>> {
   try {
-    const body = (await request.json()) as unknown;
+    const body = (await request.json().catch(() => null)) as Link | null;
+
+    if (!body) throw new Error('Invalid request body');
 
     const { url, slug } = linkSchema.parse(body);
 
