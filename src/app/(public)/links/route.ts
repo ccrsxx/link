@@ -15,20 +15,32 @@ export async function POST(
   try {
     const body = (await request.json().catch(() => null)) as Link | null;
 
-    if (!body) throw new Error('Invalid request body');
+    if (!body)
+      return NextResponse.json(
+        { message: 'Invalid request body' },
+        { status: 400 }
+      );
 
     const { url, slug } = linkSchema.parse(body);
 
     const isValidUrl = checkIfUrlIsValid(url);
 
-    if (!isValidUrl) throw new Error("URL can't be from this website");
+    if (!isValidUrl)
+      return NextResponse.json(
+        { message: "URL can't be from this website" },
+        { status: 400 }
+      );
 
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const parsedSlug = slug || generateRandomSlug();
 
     const slugExists = await checkSlugExists(parsedSlug);
 
-    if (slugExists) throw new Error('Slug already exists');
+    if (slugExists)
+      return NextResponse.json(
+        { message: 'Slug already exists' },
+        { status: 400 }
+      );
 
     await prisma.link.create({
       data: {
