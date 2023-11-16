@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { rateLimit } from './lib/rate-limit';
+import { getOrigin, getBearerToken } from './lib/helper-server';
+import { SECRET_PASSWORD } from './lib/env-server';
+import { NEXT_PUBLIC_URL } from './lib/env';
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 1 minute
@@ -21,6 +24,22 @@ export async function middleware(request: Request): Promise<NextResponse> {
       { status: 429, headers: headers }
     );
   }
+
+  const origin = getOrigin(headers);
+
+  if (origin !== NEXT_PUBLIC_URL)
+    return NextResponse.json(
+      { message: 'Forbidden' },
+      { status: 403, headers: headers }
+    );
+
+  const bearerToken = getBearerToken(headers);
+
+  if (bearerToken !== SECRET_PASSWORD)
+    return NextResponse.json(
+      { message: 'Unauthorized' },
+      { status: 401, headers: headers }
+    );
 
   return NextResponse.next({ headers });
 }

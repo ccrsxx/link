@@ -1,15 +1,16 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-  NEXT_PUBLIC_URL: z.string()
+  NEXT_PUBLIC_URL: z.string().min(1)
 });
 
 const parsedSchema = envSchema.parse({
   NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL
 });
 
-const { NEXT_PUBLIC_URL } = parsedSchema;
+export const { NEXT_PUBLIC_URL } = parsedSchema;
 
-const URL_WITHOUT_PROTOCOL = NEXT_PUBLIC_URL.replace(/(^\w+:|^)\/\//, '');
-
-export { NEXT_PUBLIC_URL, URL_WITHOUT_PROTOCOL };
+export const URL_WITHOUT_PROTOCOL = NEXT_PUBLIC_URL.replace(
+  /(^\w+:|^)\/\//,
+  ''
+);

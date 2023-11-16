@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { NEXT_PUBLIC_URL } from '@/lib/env';
+import { SECRET_PASSWORD } from '@/lib/env-server';
 import type { APIResponse } from '@/lib/types/api';
 import type { LinkMeta } from '@/lib/types/meta';
 
@@ -16,6 +17,10 @@ export async function createLink(
   try {
     const response = await fetch(`${NEXT_PUBLIC_URL}/links`, {
       method: 'POST',
+      headers: {
+        Origin: NEXT_PUBLIC_URL,
+        Authorization: `Bearer ${SECRET_PASSWORD}`
+      },
       body: JSON.stringify(body)
     });
 
