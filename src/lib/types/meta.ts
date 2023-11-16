@@ -1,5 +1,6 @@
-export type LinkMeta = {
-  url: string;
-  slug: string;
+import type { Link } from '@/app/schema';
+
+export type LinkMeta = Required<Link> & {
   successUrl: string;
+  redirectUrl: string;
 };

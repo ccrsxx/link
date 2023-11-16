@@ -53,9 +53,10 @@ export async function POST(
       {
         message: 'Link created successfully',
         data: {
-          url: `${NEXT_PUBLIC_URL}/l/${parsedSlug}`,
+          url: url,
           slug: parsedSlug,
-          successUrl: `${NEXT_PUBLIC_URL}/s/${parsedSlug}`
+          successUrl: `${NEXT_PUBLIC_URL}/s/${parsedSlug}`,
+          redirectUrl: `${NEXT_PUBLIC_URL}/l/${parsedSlug}`
         }
       },
       { status: 201 }
