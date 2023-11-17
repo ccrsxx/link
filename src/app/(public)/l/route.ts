@@ -12,15 +12,15 @@ import type { LinkMeta } from '@/lib/types/meta';
 export async function POST(
   request: Request
 ): Promise<NextResponse<APIResponse<LinkMeta>>> {
+  const body = (await request.json().catch(() => null)) as Link | null;
+
+  if (!body)
+    return NextResponse.json(
+      { message: 'Invalid request body' },
+      { status: 400 }
+    );
+
   try {
-    const body = (await request.json().catch(() => null)) as Link | null;
-
-    if (!body)
-      return NextResponse.json(
-        { message: 'Invalid request body' },
-        { status: 400 }
-      );
-
     const { url, slug } = linkSchema.parse(body);
 
     const isValidUrl = checkIfUrlIsValid(url);

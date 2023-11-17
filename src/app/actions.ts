@@ -15,7 +15,7 @@ export async function createLink(
   let successUrl: string;
 
   try {
-    const response = await fetch(`${NEXT_PUBLIC_URL}/links`, {
+    const response = await fetch(`${NEXT_PUBLIC_URL}/l`, {
       method: 'POST',
       headers: {
         Origin: NEXT_PUBLIC_URL,

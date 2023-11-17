@@ -49,5 +49,5 @@ type Config = {
 };
 
 export const config: Config = {
-  matcher: '/links'
+  matcher: '/l'
 };
