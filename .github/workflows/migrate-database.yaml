@@ -1,0 +1,22 @@
+name: ⬆️ Deploy migrations to database
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 🔥 Migrate
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download deps
+        run: npm ci
+
+      - name: Apply all pending migrations to the database
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
