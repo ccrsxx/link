@@ -10,11 +10,13 @@ export default async function Success({
 }: {
   params: { slug: string };
 }): Promise<JSX.Element> {
-  const slugExists = await checkSlugExists(slug);
+  const decodedSlug = decodeURIComponent(slug);
+
+  const slugExists = await checkSlugExists(decodedSlug);
 
   if (!slugExists) redirect('/');
 
-  const url = `${NEXT_PUBLIC_URL}/l/${slug}`;
+  const url = `${NEXT_PUBLIC_URL}/l/${decodedSlug}`;
 
   return (
     <main>
